@@ -1,4 +1,3 @@
-FROM php8.1:alpine
 FROM php:fpm
 
 # Install dependencies
@@ -18,10 +17,13 @@ FROM php:fpm
 #    curl
 RUN apt-get update && apt-get install -y \
     zip \
-    unzip
+    unzip \
+    git
 # RUN pecl install xdebug-3.0.1 \
 #    && docker-php-ext-enable xdebug
+WORKDIR /var/www/backend
 
+COPY ./backend/composer.lock ./backend/composer.json ./backend/composer.phar ./
 # Clear cache
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -34,21 +36,16 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable mysqli 
 # RUN sudo apt install --no-install-recommends php8.1
 # RUN apt install php-cli
 # Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/var/www/backend --filename=composer
+# RUN php /var/www/backend/composer.phar update
 
-# Expose port 9000 and start php-fpm server
+# COPY ./backend/vendor vendor
+
 USER root
+
 COPY ./docker/backend/ext /usr/local/lib/php/extensions/no-debug-non-zts-20220829
-# RUN ls -lah
-# RUN chmod -R a+xwr storage/
+
 EXPOSE 9000
 CMD ["php-fpm"]
-# CMD ["sh", "-c", "php artisan serve --port=9000"]
-# CMD ["php artisan serve"]
-
-# FROM nginx:alpine
-# EXPOSE 3000
-
-# COPY 
 
 
