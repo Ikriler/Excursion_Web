@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y \
 USER root
 
 EXPOSE 8531
-CMD ["sh", "-c", "npm install && npm run dev"]
+CMD ["sh", "-c", "npm install && npm run serve"]
