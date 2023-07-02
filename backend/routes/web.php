@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExcursionController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,7 @@ Route::get('/api/token', function() {
 });
 
 Route::get('/api/excursion/index', [ExcursionController::class, "index"]);
+
+Route::post("/api/image/upload", [ImageController::class, "upload"]);
+
+Route::get("/api/image/get", [ImageController::class, "getImage"]);
